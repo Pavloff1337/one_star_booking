@@ -1,22 +1,28 @@
 import os
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
-# URL БД берём из ENV (или дефолт для локалки)
+# Загружаем переменные окружения (.env)
+load_dotenv()
+
+# Берём подключение из переменной окружения
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql+psycopg2://user:password@localhost:5432/hotel_db",
+    "postgresql+psycopg2://admin:12345@localhost:5432/booking",  # fallback если нет .env
 )
 
 class Base(DeclarativeBase):
-    """Базовый класс декларативных моделей (SQLAlchemy 2.0)."""
+    """Базовый класс для всех моделей"""
     pass
 
+# Движок SQLAlchemy
 engine = create_engine(
     DATABASE_URL,
     pool_pre_ping=True,
 )
 
+# Сессия
 SessionLocal = sessionmaker(
     bind=engine,
     autoflush=False,
@@ -24,8 +30,8 @@ SessionLocal = sessionmaker(
     expire_on_commit=False,
 )
 
+# Dependency для FastAPI
 def get_db():
-    """Dependency для FastAPI: создаёт/закрывает сессию."""
     db = SessionLocal()
     try:
         yield db

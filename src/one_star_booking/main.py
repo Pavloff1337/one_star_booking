@@ -1,7 +1,7 @@
 from fastapi import FastAPI
+from .routers import hotel, booking
 
-app = FastAPI()
+app = FastAPI(title="Hotel Booking API")
 
-@app.get("/")
-def read_root():
-    return {"message": "Hello World"}
+app.include_router(hotel.router)
+app.include_router(booking.router)

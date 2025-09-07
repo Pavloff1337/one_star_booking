@@ -1,0 +1,21 @@
+# Dockerfile.dev
+# Используем Python 3.11 slim
+FROM python:3.11-slim
+
+# Устанавливаем Poetry
+RUN pip install --no-cache-dir poetry
+
+# Создаём рабочую директорию
+WORKDIR /app
+
+# Копируем файлы зависимостей
+COPY pyproject.toml poetry.lock ./
+
+# Устанавливаем все зависимости (включая dev-зависимости)
+RUN poetry install --no-root
+
+# Копируем весь проект
+COPY . .
+
+# Запуск приложения через uvicorn
+CMD ["poetry", "run", "uvicorn", "src.one_star_booking.main:app", "--host", "0.0.0.0", "--port", "8000"]

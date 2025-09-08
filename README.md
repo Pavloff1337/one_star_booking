@@ -5,9 +5,12 @@ DATABASE_URL=postgresql+psycopg2://admin:12345@db:5432/booking данное по
 DATABASE_URL=postgresql+psycopg2://admin:12345@localhost:5432/booking локальное подключение к бд на пк 
 
 Так же для проверки работы swagger нужно заходить по адресу http://127.0.0.1:8000/docs#/
- 
+
+Для запуска при помощи Makefile нужно установить Chocolatey 
+в powershell прописать команду 
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+choco install make
 
 Для запуска через powershell нужно перейти по пути C:\Users\pawa2\PycharmProjects\one_star_booking
 и запустить команду make dev-up
-
 
